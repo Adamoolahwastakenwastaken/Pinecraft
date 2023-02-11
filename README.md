@@ -10,12 +10,12 @@ I made this using python and ursina
 - ursina : pip install ursina
 
 # Credits
-credits arent important ... or are they...
-Ashh - EMOTIONAL SUPPORT & ARTIST
-ME (ADAM) - CODING & OTHER GARBAGE
-TAREK - ASHES BF & DUMBNESS
-AARON - PLAYTESTER
-EYAD - MORE EMOTIONAL SUPPORT & PLAYTESTER
+Here are the credits:
+- Ashh - EMOTIONAL SUPPORT & ARTIST
+- ME (ADAM) - CODING & OTHER GARBAGE
+- TAREK - ASHES BF & DUMBNESS
+- AARON - PLAYTESTER
+- EYAD - MORE EMOTIONAL SUPPORT & PLAYTESTER
 
 # copyright garbage
 you can do what ever u want with this go crazy go stupid record mod but you cant do this cuz i said so :
