@@ -31,3 +31,5 @@ you can do what ever u want with this go crazy go stupid record mod but you cant
  - open the repo through vs code : in ur terminal : code .
  - Edit the code 
  - if u'd like : submit the mod to : disnuts123672@gmail.com
+
+> I like kaka and food and sleep and other stuff
