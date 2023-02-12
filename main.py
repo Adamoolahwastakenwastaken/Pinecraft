@@ -10,10 +10,26 @@ indra.color = window.color
 
 player = FirstPersonController()
 player.gravity = 0.0
+player.cursor.visible = False
+window.fullscreen = False
 
 terrain = MeshTerrain()
 
+px = player.x
+pz = player.z
+
+count = 1
 def update():
+    global count, px, pz
+    count+= 1
+    if count == 2: 
+        terrain.genTerrain()
+        count = 0
+    
+    if abs(player.x - px) > 4 or abs(player.z - pz) > 4:
+        px = player.x
+        pz = player.z
+        terrain.swirlengine.reset(px,pz)
     blockFound = False
     step = 2
     height = 1.86
@@ -32,6 +48,6 @@ def update():
     else:
         # Gravity lol 
         player.y -= 9.8 * time.dt    
-terrain.genTerrain()    
+   
 
 app.run()
