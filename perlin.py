@@ -3,7 +3,7 @@ from random import randint
 
 class Perlin:
     def __init__(this):
-        this.seed = 23
+        this.seed = randint(1,4000000)
         print(this.seed)
         this.octaves = 8
         this.freq = 256

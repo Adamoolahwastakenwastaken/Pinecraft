@@ -1,8 +1,12 @@
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from mesh_terrain import MeshTerrain
+from pypresence import Presence
+import time
 
 app = Ursina()
+
+start_time = time.time()
 
 window.color = color.rgb(0,200,255)
 indra = Sky()
@@ -10,16 +14,29 @@ indra.color = window.color
 
 player = FirstPersonController()
 player.gravity = 0.0
-player.cursor.visible = False
+player.cursor.visible = True
 window.fullscreen = False
 
+
+        
+
+
 terrain = MeshTerrain()
+
 
 px = player.x
 pz = player.z
 
+# RPC STUFF
+def rpc():
+    CLIENT_ID = 1074326950493036584
+    RPC = Presence(CLIENT_ID) # initialize client class
+    RPC.connect() # handshake loop start
+    print(RPC.update(state="Playing", details="lol", start = time.time() - start_time, end = 2+2 ))  # Set the presence    
+
+
 count = 1
-def update():
+def update():  
     global count, px, pz
     count+= 1
     if count == 2: 
@@ -48,6 +65,5 @@ def update():
     else:
         # Gravity lol 
         player.y -= 9.8 * time.dt    
-   
-
+rpc()   
 app.run()
