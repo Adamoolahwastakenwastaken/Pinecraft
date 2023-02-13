@@ -1,66 +1,102 @@
-from ursina import *
-from random import randrange, random
 from perlin import Perlin
+from ursina import *
+from random import random
+from mining_sys import *
 from swirl_engine import SwirlEngine
 
 class MeshTerrain:
     def __init__(this):
 
-        this.block = load_model('block.obj',use_deepcopy=True)
+        this.block = load_model('block.obj')
         this.textureAtlas = 'texture_atlas_3.png'
-        this.numVertices = len(this.block.vertices)
-        print(this.numVertices)
+
         this.subsets = []
-        this.numSubsets = 128
-        this.subWidth = 6 # should be even or we die of broken code !
-        this.swirlengine = SwirlEngine(this.subWidth)
-        this.currentSubset = 0
-        # terrain dictionary :O
+        this.numSubsets = 256
+        this.subWidth = 12
+        # ***
+        this.currentSubset=0
+        this.count=0
+        this.swirlEngine = SwirlEngine(this.subWidth)
+
+        # Our terrain dictionary :D
         this.td = {}
+        # Our vertex dictionary # mining system
+        this.vd = {}
+
         this.perlin = Perlin()
 
-        for i in range(0,this.numSubsets):
-            e = Entity(model = Mesh(), 
-            texture=this.textureAtlas)
+        for i in range(this.numSubsets):
+            e = Entity( model=Mesh(),
+                        texture=this.textureAtlas)
             e.texture_scale*=64/e.texture.width
             this.subsets.append(e)
 
-    def genBlock(this,x,y,z):
-        # Add to the verticies of our subset
-        model = this.subsets[this.currentSubset].model
-        model.vertices.extend([Vec3(x,y,z) + v for v in this.block.vertices])  
+    def update(this,pos,cam):
+        highlight(pos,cam,this.td)
+
+    def input(this,key):
+        if key=="left mouse up":
+            plantIdea(this.td,this.vd,this.subsets)
+    # # #    
+    def genBlock(this,x,y,z,subset=-1):
+        if subset == -1 : subset=this.currentSubset
+        model = this.subsets[subset].model
+        # Extend or add to the vertices of our model.
+        model.vertices.extend([ Vec3(x,y,z) + v for v in 
+                                this.block.vertices])
+        # Record terrain in dictionary :)
+        this.td["x"+str(floor(x))+
+                "y"+str(floor(y))+
+                "z"+str(floor(z))] = "t"
+        # Rec Subset index
+        vob = (subset,len(model.vertices)-37)
+        this.vd["x"+str(floor(x))+
+                "y"+str(floor(y))+
+                "z"+str(floor(z))] = vob
+        # ***
+        cc = random()*0.5
+        model.colors.extend((   Vec4(1-cc,1-cc,1-cc,1),) * 
+                                len(this.block.vertices))
+
+        # This is the texture atlas co-ord for grass :)
         uu = 8
         uv = 7
-        if y > 2 :
+        if y > 2:
             uu = 8
             uv = 6
         model.uvs.extend([Vec2(uu,uv) + u for u in this.block.uvs])
-        # Record The terrain in a dictionary :<
-        this.td ["x"+str(floor(x))+
-                 "y"+str(floor(y))+
-                 "z"+str(floor(z))] = "t" # Rounds down the values for x,y,z so that they dont become 7.8948
-        
-        # 40-42 Chooses a random tint for the color of a block :yay:
-        c = random()-.5
-        model.colors.extend((Vec4(1-c,1-c,1-c,1),)*
-                            this.numVertices)
+
 
     def genTerrain(this):
-        x = this.swirlengine.pos.x
-        z = this.swirlengine.pos.y
 
-        d = int(this.subWidth * 0.5)
+        x = 0
+        z = 0
+        # ***
+        x = this.swirlEngine.pos.x
+        z = this.swirlEngine.pos.y
+
+        d = int(this.subWidth*0.5)
 
         for k in range(-d,d):
             for j in range(-d,d):
+
                 y = floor(this.perlin.get_height(x+k,z+j))
-                if this.td.get("x"+str(floor(x))+
+                # ***
+                if this.td.get( "x"+str(floor(x+k))+
                                 "y"+str(floor(y))+
-                                "z"+str(floor(z))) != "t":
+                                "z"+str(floor(z+j)))==None:
                     this.genBlock(x+k,y,z+j)
-        this.subsets[this.currentSubset].model.generate()
-        # fix for "1: RecursionError: maximum recursion depth exceeded in comparison"
-        if this.currentSubset<this.numSubsets-1:
-            this.currentSubset+=1
-        else: this.currentSubset=0
-        this.swirlengine.move()       
+                    this.count+=1
+                    # ***
+                    if this.count==this.subWidth*this.subWidth:
+                        this.subsets[this.currentSubset].model.generate()
+                        this.currentSubset+=1
+                        this.count=0
+
+        # if madeNew==True:
+            # this.subsets[this.currentSubset].model.generate()
+
+        # *** Swirl to next position.
+        this.swirlEngine.move()
+        if this.currentSubset==this.numSubsets-1:
+            this.currentSubset=0

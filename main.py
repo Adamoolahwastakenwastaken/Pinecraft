@@ -17,22 +17,21 @@ player.gravity = 0.0
 player.cursor.visible = True
 window.fullscreen = False
 
-
-        
-
-
 terrain = MeshTerrain()
 
 
 px = player.x
 pz = player.z
 
+def input(key):
+    terrain.input(key)
+
 # RPC STUFF
-def rpc():
-    CLIENT_ID = 1074326950493036584
-    RPC = Presence(CLIENT_ID) # initialize client class
-    RPC.connect() # handshake loop start
-    print(RPC.update(state="Playing", details="lol", start = time.time() - start_time, end = 2+2 ))  # Set the presence    
+#def rpc():
+   # CLIENT_ID = 1074326950493036584
+   # RPC = Presence(CLIENT_ID) # initialize client class
+   # RPC.connect() # handshake loop start
+   # print(RPC.update(state="Playing", details="Definetely not a minecraft rip-off", start = time.time() - start_time, end = 2+2 ))  # Set the presence    
 
 
 count = 1
@@ -42,11 +41,13 @@ def update():
     if count == 2: 
         terrain.genTerrain()
         count = 0
+
+    terrain.update(player.position,camera)    
     
     if abs(player.x - px) > 4 or abs(player.z - pz) > 4:
         px = player.x
         pz = player.z
-        terrain.swirlengine.reset(px,pz)
+        terrain.swirlEngine.reset(px,pz)
     blockFound = False
     step = 2
     height = 1.86
@@ -65,5 +66,5 @@ def update():
     else:
         # Gravity lol 
         player.y -= 9.8 * time.dt    
-rpc()   
+#rpc()   
 app.run()
