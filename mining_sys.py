@@ -4,21 +4,25 @@ from ursina.vec3 import Vec3
 bte = Entity(model = "cube", color = color.rgba(1,1,0,0.4))
 bte.scale *= 1.001
 
-def plantIdea(td,vd,subsets):
+def mine(td,vd,subsets):
     if not bte.visible: return
     wv = vd.get('x'+str(floor(bte.x))+
-    'y'+str(floor(bte.y))+
+    'y'+str(floor(bte.y-0.5))+
     'z'+str(floor(bte.z)))
+
+    
+    if wv==None : return
+
     for v in range(wv[1]+1,wv[1]+37):
         subsets[wv[0]].model.vertices[v][1]+=999
     subsets[wv[0]].model.generate()
 
     #g for gap in the terrain and wipe vd entry
     td['x' + str(floor(bte.x))+
-    'y' + str(floor(bte.y))+
+    'y' + str(floor(bte.y-.5))+
     'z' + str(floor(bte.z))]
     vd[ 'x'+str(floor(bte.x))+
-        'y'+str(floor(bte.y))+
+        'y'+str(floor(bte.y-.5))+
         'z'+str(floor(bte.z))] = None
     return (bte.position + Vec3(0,-0.5,0), wv[0])
 
