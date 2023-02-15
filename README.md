@@ -12,10 +12,11 @@ I made this using python and ursina
 # Credits
 Here are the credits:
 - Ashh - EMOTIONAL SUPPORT & ARTIST
-- ME (ADAM) - CODING & OTHER GARBAGE
+- ME (ADAM) - Head programmer & Music / Main director
 - TAREK - ASHES BF & DUMBNESS
 - AARON - PLAYTESTER
 - EYAD - MORE EMOTIONAL SUPPORT & PLAYTESTER
+- Zein (Second Programmer)
 
 # copyright garbage
 you can do what ever u want with this go crazy go stupid record mod but you cant do this cuz i said so :
