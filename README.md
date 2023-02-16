@@ -13,16 +13,18 @@ I made this using python and ursina
 Here are the credits:
 - Ashh - EMOTIONAL SUPPORT & ARTIST
 - ME (ADAM) - Head programmer & Music / Main director
-- TAREK - ASHES BF & DUMBNESS
+- TAREK - ASHES BF & Playtest 
 - AARON - PLAYTESTER
 - EYAD - MORE EMOTIONAL SUPPORT & PLAYTESTER
 - Zein (Second Programmer)
+- Rasem (Musical Director)
+- Mohd al taif (Art Director)
 
 # copyright garbage
 you can do what ever u want with this go crazy go stupid record mod but you cant do this cuz i said so :
  - Resell this game (ik it wont be popular but still)
  - Steal the code and turn it into a dildo hunting game
- Idk what else to put
+ - Idk what else to put
  
  # For modders
  To mod this game or make mods :
