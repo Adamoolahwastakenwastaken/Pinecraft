@@ -3,6 +3,7 @@ from ursina import *
 from random import random
 from mining_sys import *
 from swirl_engine import SwirlEngine
+from building_sys import *
 
 class MeshTerrain:
     def __init__(this):
@@ -34,15 +35,23 @@ class MeshTerrain:
         
     # ***
     def input(this,key):
-        if key=='left mouse up':
-            epi=mine(  this.td,
-                            this.vd,
-                            this.subsets)
-            this.genWalls(epi[0],epi[1])
-            this.subsets[epi[1]].model.generate()
-
-    def genWalls(this,epicentre,subset):
-        if epicentre==None:return
+        if key=='left mouse up' and bte.visible==True:
+            epi = mine(this.td,this.vd,this.subsets)
+            if epi != None:
+                this.genWalls(epi[0],epi[1])
+                this.subsets[epi[1]].model.generate()
+        if key=='right mouse up' and bte.visible==True:
+            bsite = checkBuild(bte.position,this.td)
+            if bsite!=None:
+                this.genBlock(floor(bsite.x),floor(bsite.y),floor(bsite.z),subset=0,blockType='grass')
+                gapShell(this.td,bsite)
+                this.subsets[0].model.generate()        
+    
+    # I.e. after mining, to create illusion of depth.
+    def genWalls(this,epi,subset):
+        if epi==None: return
+        # Refactor this -- place in mining_system 
+        # except for cal to genBlock?
         wp =    [   Vec3(0,1,0),
                     Vec3(0,-1,0),
                     Vec3(-1,0,0),
@@ -50,13 +59,13 @@ class MeshTerrain:
                     Vec3(0,0,-1),
                     Vec3(0,0,1)]
         for i in range(0,6):
-            np = epicentre + wp[i]
-            if this.td.get( 'x'+str(floor(np.x))+
-                            'y'+str(floor(np.y))+
-                            'z'+str(floor(np.z)))==None:
+            np = epi + wp[i]
+            if this.td.get( (floor(np.x),
+                            floor(np.y),
+                            floor(np.z)))==None:
                 this.genBlock(np.x,np.y,np.z,subset)
 
-    def genBlock(this,x,y,z,subset=-1):
+    def genBlock(this,x,y,z,subset=-1,blockType="grass"):
         # ***
         if subset==-1: subset=this.currentSubset
         # Extend or add to the vertices of our model.
@@ -115,7 +124,7 @@ class MeshTerrain:
                 if this.td.get( "x"+str(floor(x+k))+
                                 "y"+str(floor(y))+
                                 "z"+str(floor(z+j)))==None:
-                    this.genBlock(x+k,y,z+j)
+                    this.genBlock(x+k,y,z+j,blockType="grass")
 
         this.subsets[this.currentSubset].model.generate()
         # Current subset hack ;)

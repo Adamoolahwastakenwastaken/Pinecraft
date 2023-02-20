@@ -49,16 +49,13 @@ count = 0
 def update():  
     global count, px, pz
 
-    for i in range(64):
-        flakes[i].pyhsics(player.position)
-
     terrain.genTerrain()
 
     count+= 1
     if count == 4: 
         count = 0
 
-    terrain.update(player.position,camera)    
+        terrain.update(player.position,camera)    
     
     if abs(player.x - px) > 4 or abs(player.z - pz) > 4:
         px = player.x
