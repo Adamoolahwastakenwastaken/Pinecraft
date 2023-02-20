@@ -3,10 +3,11 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 from mesh_terrain import MeshTerrain
 from pypresence import Presence
 from datetime import datetime
-import pygame
 from flake import Flake
+from random import randint
 
 app = Ursina()
+
 
 
 window.color = color.rgb(0,200,255)
@@ -18,18 +19,16 @@ player.gravity = 0.0
 player.cursor.visible = False
 window.fullscreen = False
 
-date_string = '2023-12-25'
 
 
 terrain = MeshTerrain()
-# run only if its christmas see line 21
-if datetime.now() == date_string:
-    flakes = []
+flakes = []
 
-    for i in range(32):
-        e = Flake(player.position) # works cuz our Flake is an entity with a Vector3
-        flakes.append(e)
-FPS = 60
+for i in range(64):
+    e = Flake(player.position) # works cuz our Flake is an entity with a Vector3
+    flakes.append(e)
+grass_audio = Audio('step.ogg',autoplay=False,loop=False)
+snow_audio = Audio('snowStep.mp3',autoplay=False,loop=False)    
 
 
 px = player.x
@@ -46,12 +45,17 @@ def input(key):
    # print(RPC.update(state="Playing", details="Definetely not a minecraft rip-off", start = time.time() - start_time, end = 2+2 ))  # Set the presence    
 
 
-count = 1
+count = 0
 def update():  
     global count, px, pz
+
+    for i in range(64):
+        flakes[i].pyhsics(player.position)
+
+    terrain.genTerrain()
+
     count+= 1
-    if count == 2: 
-        terrain.genTerrain()
+    if count == 4: 
         count = 0
 
     terrain.update(player.position,camera)    
@@ -60,6 +64,14 @@ def update():
         px = player.x
         pz = player.z
         terrain.swirlEngine.reset(px,pz)
+        if player.y > 4:
+            if snow_audio.playing==False:
+                snow_audio.pitch=randint(1,10)
+                snow_audio.play()
+        elif grass_audio.playing==False:
+            grass_audio.pitch=randint(1,10)
+            grass_audio.play()
+
     blockFound = False
     step = 2
     height = 1.86
