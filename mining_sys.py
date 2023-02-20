@@ -1,31 +1,33 @@
-from ursina import color,Entity,floor
+"""
+So, we want, first, to create a highlight at position.
+Oh- we could add colider to this object too :) - for
+building relative to specific face...?
+"""
+from ursina import color, Entity, floor
 from ursina.vec3 import Vec3
 
-bte = Entity(model = "cube", color = color.rgba(1,1,0,0.4))
-bte.scale *= 1.001
+bte = Entity(model='cube',color=color.rgba(1,1,0,0.4))
+bte.scale*=1.001
 
+# ***
 def mine(td,vd,subsets):
     if not bte.visible: return
     wv = vd.get('x'+str(floor(bte.x))+
-    'y'+str(floor(bte.y-0.5))+
-    'z'+str(floor(bte.z)))
-
-    
-    if wv==None : return
-
+                'y'+str(floor(bte.y))+
+                'z'+str(floor(bte.z)))
     for v in range(wv[1]+1,wv[1]+37):
         subsets[wv[0]].model.vertices[v][1]+=999
     subsets[wv[0]].model.generate()
-
-    #g for gap in the terrain and wipe vd entry
-    td['x' + str(floor(bte.x))+
-    'y' + str(floor(bte.y-.5))+
-    'z' + str(floor(bte.z))]
+    # g for gap in terrain. And wipe vd entry.
+    td[ 'x'+str(floor(bte.x))+
+        'y'+str(floor(bte.y))+
+        'z'+str(floor(bte.z))] = 'g'
     vd[ 'x'+str(floor(bte.x))+
-        'y'+str(floor(bte.y-.5))+
+        'y'+str(floor(bte.y))+
         'z'+str(floor(bte.z))] = None
     return (bte.position + Vec3(0,-0.5,0), wv[0])
 
+# ***
 def highlight(pos,cam,td):
     for i in range(1,15):
         wp=pos+cam.forward*i
@@ -35,7 +37,7 @@ def highlight(pos,cam,td):
         bte.x = x
         bte.z = z
         bte.y = y+0.5
-
+        
         if td.get(  "x"+str(x)+
                     "y"+str(y)+
                     "z"+str(z))=="t":
@@ -44,4 +46,4 @@ def highlight(pos,cam,td):
             # e.collider='box'
             break
         else:
-            bte.visible=False
+            bte.visible=False  

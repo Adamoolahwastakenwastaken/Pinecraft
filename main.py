@@ -2,11 +2,12 @@ from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from mesh_terrain import MeshTerrain
 from pypresence import Presence
-import time
+from datetime import datetime
+import pygame
+from flake import Flake
 
 app = Ursina()
 
-start_time = time.time()
 
 window.color = color.rgb(0,200,255)
 indra = Sky()
@@ -14,10 +15,21 @@ indra.color = window.color
 
 player = FirstPersonController()
 player.gravity = 0.0
-player.cursor.visible = True
+player.cursor.visible = False
 window.fullscreen = False
 
+date_string = '2023-12-25'
+
+
 terrain = MeshTerrain()
+# run only if its christmas see line 21
+if datetime.now() == date_string:
+    flakes = []
+
+    for i in range(32):
+        e = Flake(player.position) # works cuz our Flake is an entity with a Vector3
+        flakes.append(e)
+FPS = 60
 
 
 px = player.x
@@ -66,5 +78,5 @@ def update():
     else:
         # Gravity lol 
         player.y -= 9.8 * time.dt    
-#rpc()   
+app.step()
 app.run()
