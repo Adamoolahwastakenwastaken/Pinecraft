@@ -36,3 +36,6 @@ you can do what ever u want with this go crazy go stupid record mod but you cant
  - if u'd like : submit the mod to : disnuts123672@gmail.com
 
 > I like kaka and food and sleep and other stuff
+
+# Quick Update / Note
+Hi, So im taking a little break from coding and social media cuz i have a lot of exams so should u need anything u can always contact me on discord Adamoolah#4563 Bai
