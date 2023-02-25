@@ -26,12 +26,14 @@ you can do what ever u want with this go crazy go stupid record mod but you cant
  - Steal the code and turn it into a dildo hunting game
  Idk what else to put
  
- # For modders
+ # For Coders / Modders
  To mod this game or make mods :
  - Install python : https://python.org/downloads
- - Install visual studio code for your platform (or use the web version if ur a disgusting moron) : https://https://code.visualstudio.com
- - Install ursina : pip install ursina
- - open the repo through vs code : in ur terminal : code .
+ - Install visual studio code for your platform (or use the web version if ur a disgusting moron) 
+ - Install ursina : pip install ursina (in the terminal)
+ - Clone the repo using git or github desktop (https://github.com/Adamoolahwastakenwastaken/Pinecraft) or (git clone {link})
+ - Cd into the place where you cloned the repo for example (cd Things/repos/Pinecraft) in the terminal
+ - open the repo through vs code using : code . in the terminal
  - Edit the code 
  - if u'd like : submit the mod to : disnuts123672@gmail.com
 
